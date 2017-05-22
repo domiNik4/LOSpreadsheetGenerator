@@ -29,22 +29,16 @@ public class Main {
         DBAccess d = new DBAccess();
         
         List<Object[]>listOfCities=d.getAllCities();
-        Object[][]cities= listOfCities.toArray(new Object[listOfCities.size()][5]);
+        String[] columns = new String[] { "ID", "Name","Country code","District","Info" };
+        Spreadsheet spreadsheetCities=new Spreadsheet(columns,listOfCities,"cities.ods");
+        spreadsheetCities.generate();
         
         List<Object[]>listOfCountries=d.getAllCountries();
-        Object[][]countries= listOfCountries.toArray(new Object[listOfCountries.size()][3]);
-
-        String[] columns = new String[] { "ID", "Name","Country code","District","Info" };
-        TableModel model = new DefaultTableModel(cities, columns);  
-        File file = new File("cities.ods");
-        SpreadSheet.createEmpty(model).saveAs(file);
-        OOUtils.open(file);
-        
         columns = new String[] {"Code","Name","Capital"};
-        model = new DefaultTableModel(countries, columns);
-        file=new File("countries.ods");
-        SpreadSheet.createEmpty(model).saveAs(file);
-        OOUtils.open(file);
+        Spreadsheet spreadsheetCountries=new Spreadsheet(columns,listOfCountries,"countries.ods");
+        spreadsheetCountries.generate();
+        
+        
     }
     
 }
